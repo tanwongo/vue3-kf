@@ -70,6 +70,7 @@ const serviceRecord = () => {
 </script>
 <style lang="less" scoped>
 .home-my-title {
+    
     background: url(/src/assets/head-q.jpg) repeat 0 0 #3f3f47;
     .br-radius{
         width: 23px;
