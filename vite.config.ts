@@ -15,7 +15,8 @@ export default defineConfig({
   base: './', //设置打包路径
   server: {
     host: '172.26.134.154',
-    port: 9528,
+    
+    port: 7559,
     open: true, //设置是否自动打开浏览器
     cors: true //设置是否允许跨域
     // 设置代理，根据我们项目实际情况配置

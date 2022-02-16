@@ -8,4 +8,4 @@ import 'vant/lib/index.css';
 import '@/assets/main.css'
 import '@/assets/resetVant.less'
 
-createApp(App).use(router).use(Vant).use(store).use(VueI18n).mount('#app')
+    createApp(App).use(router).use(Vant).use(store).use(VueI18n).mount('#app')

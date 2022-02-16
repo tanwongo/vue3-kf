@@ -4,8 +4,26 @@ body{
 .pdb4{
     padding: 4%;
 }
+.mt10{
+    margin-top: 10px;
+}
+.ml5{
+    margin-left: 5px;
+}
+.mr10{
+    margin-right: 10px;
+}
 @media all and (orientation:landscape) {
    body{
-        background: #000;
+        background: #e5e5e5;
+   }
+   .question-request-btm-button{
+       width: calc(100vw - 1px) !important;
+   }
+}
+
+@media all and (orientation:Portrait) {
+   .question-request-btm-button{
+       width: calc(100vw - 1px) !important;
    }
 }

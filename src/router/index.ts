@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Home from '@/views/home.vue'
+import Home from '@/views/Home.vue'
 import Vuex from '@/views/vuex.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -8,13 +8,24 @@ const routes: Array<RouteRecordRaw> = [
         component: Home
     },
     {
-        path: "/home",
-        name: "home",
+        path: "/Home",
+        name: "Home",
         component: Home
     }, {
-        path: "/axios",
-        name: "Axios",
-        component:()=> import('@/views/axios.vue')
+        path: "/MyQuestion",
+        name: "MyQuestion",
+        component:()=> import('@/views/MyQuestion.vue')
+    },{
+        path: "/QuestionRequest/:id/:typeid",
+        name: "QuestionRequest",
+        props: true,
+        component:()=> import('@/views/QuestionRequest.vue')
+    },
+    {
+        path: "/SubmitQuestion/:id/:typeid/:isreply",
+        name: "SubmitQuestion",
+        props: true,
+        component:()=> import('@/views/SubmitQuestion.vue')
     }
 ]
 
