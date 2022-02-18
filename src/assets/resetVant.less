@@ -31,7 +31,18 @@
         min-height: 44px;
     }
     .van-button__content{
+        width: 100%;
         justify-content: flex-start;
+    }
+    .van-button__text{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        position: relative;
     }
 }
 
@@ -63,4 +74,21 @@
 
 .radius-3-vant-btn button{
     border-radius: 3px;
+}
+
+.submit-question-alt{
+    width: 100%;
+    text-align: left;
+    .van-toast__text{
+        word-break: break-word;
+    }
+    i{
+        color: #20ff20
+    }
+}
+
+.sdkerror{
+    .van-toast__icon{
+        color:#f00
+    }
 }

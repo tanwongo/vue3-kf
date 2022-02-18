@@ -1,5 +1,5 @@
 <template>
-<van-nav-bar :title="t('HeadMyQ')" class="my-head-title" safe-area-inset-top />
+<van-nav-bar :title="t('MyQuestion.HeadMyQ')" class="my-head-title" safe-area-inset-top />
 <div class="pdb4">
     <div v-for="(v,k) in list" :key="k">
         <div class="my-question-c">
@@ -17,8 +17,8 @@
     </div>
 </div>
 <div v-if="noQuestion" class="noQuestion">
-    <p>{{t('createOne')}}</p>
-    <van-button icon="comment-o" type="primary" @click="submitQuestion()">{{t('create')}}</van-button>
+    <p>{{t('MyQuestion.createOne')}}</p>
+    <van-button icon="comment-o" type="primary" @click="submitQuestion()">{{t('MyQuestion.create')}}</van-button>
 </div>
 </template>
 <script lang="ts" setup>
@@ -29,6 +29,7 @@ import {Api} from '../config/api'
 import Moment from 'moment'
 import {Toast}  from 'vant'
 import {useRouter } from 'vue-router'
+import { json } from 'stream/consumers';
 
 const { t } = useI18n();
 const list = ref([])
@@ -37,23 +38,30 @@ const router = useRouter()
 const SDK_V:any = SDK_VALUE()
 const noQuestion = ref(false)
 
-onMounted(async () => {
-    SDK_V.then((v:any)=>{
-        let _url = Api.MY_QUESTION
-        if(v.guid){
-            _url +="?uid="+v.guid
-        }
-         requestGet(_url).then((res:any)=>{
-             if(res.data.data.length===0 && res.data.code === 0){
-                 noQuestion.value = true
-             }
-             else{
-                 list.value = res.data.data
-             }
-             Toast.clear()
-        })
+
+SDK_V.then((v:any)=>{
+    let _url = Api.MY_QUESTION
+    if(v.guid){
+        _url +="?uid="+v.guid
+    }
+        requestGet(_url).then((res:any)=>{
+            if(res.data.data.length===0 && res.data.code === 0){
+                noQuestion.value = true
+            }
+            else{
+                list.value = res.data.data
+            }
+            Toast.clear()
+    }).catch((e:any)=>{
+        Toast.loading({
+            overlay:true,
+            message:e.message,
+            forbidClick: true,
+            duration:0
+        });
     })
 })
+
 
 const questionRequest = (v:any)=> {
        router.push({

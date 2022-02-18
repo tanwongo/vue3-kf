@@ -1,6 +1,6 @@
 
 export const Api = {
-    BASE_URL: "https://cs4.17996api.net/",
+    BASE_URL: "https://cs4.17996api.net",
     // 172.26.205.166: 8001
     // https://cs4.17996api.net
     HOME_FAQ_LIST:"/faq/list/", //FAQ

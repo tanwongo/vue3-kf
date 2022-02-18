@@ -1,15 +1,22 @@
 <template>
-<van-nav-bar :title="t('HeadResQ')" class="my-head-title" safe-area-inset-top />
+<van-nav-bar :title="t('QuestionRequest.HeadResQ')" class="my-head-title" safe-area-inset-top />
 <div v-if="loading" class="pdb4">
     <div class="box">
-        <div class="head">
-            <p>{{subject['title']}}</p>
-            <p class="ptime">{{regTime}}</p>
+        <div class="box-landscape-questionR-l">
+            <div class="head">
+                <p>{{subject['title']}}</p>
+                <p class="ptime">{{regTime}}</p>
+            </div>
+            <div class="role-name">
+                <!-- <span class="ml5">{{t('QuestionRequest.NickName')}}</span>： -->
+                <span class="sp1"><van-icon name="user-o" size="1rem" /><span class="sp2">{{subject['nickname']}}</span></span>
+            </div>
+            <div>
+                <van-button  size="small" type="primary" class="mr10" @click="resolveQ">{{t('QuestionRequest.Solved')}}</van-button>
+                <van-button  plain hairline size="small" type="primary" @click="continueQ">{{t('QuestionRequest.KeepAsking')}}</van-button>
+            </div>
         </div>
-        <div class="role-name">
-            <span class="sp1"><van-icon name="user-o" /><span class="ml5">{{t('NickName')}}</span>：<span class="sp2">{{subject['nickname']}}</span></span>
-        </div>
-        <div class="cont">
+        <div class="cont box-landscape-questionR-r">
             <div v-for="(v,k) in list" :key="k" class="br">
                <template v-if="!v['gmid']">
                    <div>
@@ -30,6 +37,16 @@
                                             </template>
                                           </van-image>
                                  </template>
+                           </template>
+                       </div>
+                       <div class="mt10 question-requestion-flex">
+                           <template v-if="v['video']">
+                               <template v-if="v['video']!==null && v['video']['length']!==0">
+                                <div class="re-video">
+                                    <span class="sp1_video">video</span>
+                                    <van-icon name="video-o" size="3rem" color="#d5d5d5" />
+                                </div>
+                              </template>
                            </template>
                        </div>
                    </div>
@@ -65,10 +82,10 @@
 </div>
 <PullRefresh :loading="loading3" v-model:loading2="loading2" :onRefresh="onRefresh"/>
 <van-image-preview v-model:show="showImages" :images="imagesPw" />
-<van-sticky v-if="showBtmBtn" :offset-bottom="10" position="bottom" class="question-request-btm-button" safe-area-inset-bottom>
-    <van-button  plain hairline size="small" type="primary" class="mr10" @click="continueQ">{{t('Solved')}}</van-button>
-    <van-button  plain hairline size="small" type="primary" @click="resolveQ">{{t('KeepAsking')}}</van-button>
-</van-sticky>
+<!-- <van-sticky v-if="showBtmBtn" :offset-bottom="10" position="bottom" class="question-request-btm-button" safe-area-inset-bottom>
+    <van-button  size="small" type="primary" class="mr10" @click="resolveQ">{{t('QuestionRequest.Solved')}}</van-button>
+    <van-button  plain hairline size="small" type="primary" @click="continueQ">{{t('QuestionRequest.KeepAsking')}}</van-button>
+</van-sticky> -->
 </template>
 <script lang="ts" setup>
 import { ref,onMounted } from 'vue'
@@ -76,10 +93,9 @@ import { useI18n } from "vue-i18n";
 import {SDK_VALUE,requestGet}  from '../utils/request'
 import {Api} from '../config/api'
 import Moment from 'moment'
-import {Toast}  from 'vant'
+import {Toast,Dialog}  from 'vant'
 import {useRoute,useRouter } from 'vue-router'
 import PullRefresh from '@/components/PullRefresh.vue'
-
 const { t } = useI18n();
 const list = ref([])
 const subject:any = ref({})
@@ -95,32 +111,25 @@ const showImages = ref(false)
 const showBtmBtn = ref(false)
 const imagesPw = ref<any[]>([])
 const SDK_V:any = SDK_VALUE()
+let _params:any = ref()
+    SDK_V.then((v:any)=>{
 
-onMounted(async () => {
-    let _params ={
-        id:1,
-        uid:2000
-    }
-    // SDK_V.then((v:any)=>{
-    //     if(v.guid){
-    //        _params ={
-    //             id:route.params.id,
-    //             uid:v.guid,
-    //             vtime:new Date().getTime()
-    //        }
-    //     }
-    //     else{
-    //         _params ={
-    //             id:route.params.id,
-    //             vtime:new Date().getTime()
-    //         }
-    //     }
-    //         getData(_params)
-    // })
-     getData(_params)
-})
+        if(v.guid){
+           _params ={
+                id:route.params.id,
+                uid:v.guid
+           }
+        }
+        else{
+            _params ={
+                id:route.params.id
+            }
+        }
+            // getData(_params)
+    })
+
 const getData = (v:Object) =>{
-    requestGet(Api.DETAIL_QUESTION,v).then((res:any)=>{
+    requestGet('https://cs4.17996api.net/posts/detail?id=1').then((res:any)=>{
         list.value = res.data.data.list
         subject.value = res.data.data.subject
         regTime.value = MomentJs.unix(subject.value['updated_at']).format("YYYY-MM-DD HH:mm:ss")
@@ -140,20 +149,68 @@ const getData = (v:Object) =>{
         showBtmBtn.value = false
     })
 }
+getData()
 
 const continueQ = ()=>{
     router.push({
             name:"SubmitQuestion",
             params:{
-                id:1,
-                typeid:2000,
+                id:route.params.id,
+                typeid:route.params.typeid,
                 isreply:1
             }
     })
 }
 
 const resolveQ = ()=>{
-
+        Dialog.confirm({
+        confirmButtonText: t('QuestionRequest.Sure'),
+        cancelButtonText: t('QuestionRequest.Cancel'),
+        message:t('QuestionRequest.resQ')})
+        .then(() => {
+            let data = null
+            if(_params.uid){
+                data={
+                    gmscore:subject.value.gm_score,//获取分数
+                    gamescore:subject.value.game_score, //获取分数
+                    id:subject.value.id,  //获取sbujectid
+                    uid:_params.uid
+                }
+            }
+            else{
+                data={
+                    gmscore:subject.value.gm_score,//获取分数
+                    gamescore:subject.value.game_score, //获取分数
+                    id:subject.value.id  //获取sbujectid
+                }
+            }
+            let _url = Api.CLOSE_QUESTION
+            requestGet(_url,data).then((res:any)=>{
+                if(res.data.code == 0){
+                    Toast({
+                        overlay:true,
+                        icon:'success',
+                        message:t('QuestionRequest.Success'),
+                        forbidClick: true,
+                        className:'submit-question-alt',
+                        duration:2000
+                    });
+                    setTimeout(() => {
+                        router.push('/MyQuestion')
+                    }, 2500);
+                }
+            }).catch((e:any)=>{
+                Toast.loading({
+                    overlay:true,
+                    message:e.message,
+                    forbidClick: true,
+                    duration:3000
+                });
+            })
+        })
+        .catch(() => {
+            // on cancel
+        });
 }
 
 const onRefresh = ()=>{
@@ -222,7 +279,7 @@ p{
 }
 .sp2{
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 0.875rem;
 }
 .vtime{
     margin: 10px 0 2px 0;
@@ -267,6 +324,19 @@ p{
         word-break: break-word;
         word-spacing: normal;
         color: #001994 !important;
+    }
+}
+.re-video{
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    .sp1_video{
+        font-size: 12px;
+        z-index: 1;
+        background: #efefef;
+        width: 3rem;
+        display: block;
+        text-align: center;
+        color: #aba3a3;
     }
 }
 </style>
