@@ -46,7 +46,7 @@ label {
 code {
   background-color: #eee;
   padding: 2px 4px;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #304455;
 }
 </style>

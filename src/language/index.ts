@@ -1,4 +1,5 @@
 import { createI18n } from 'vue-i18n'        //引入vue-i18n组件
+import PnSDK from '../utils/pnsdk'
 //引入同级目录下文件
 const modules = import.meta.globEager('./*.ts') //此处使用了 VITE 的 import.meta.globEager。非 VITE 的 可以使用 require.context
 
@@ -36,7 +37,6 @@ function getLangFiles(mList:any,msg:any){
 }
 
 let _l: any = window.sessionStorage.getItem('SDK_LANGUAGE') ? window.sessionStorage.getItem('SDK_LANGUAGE') : 'cn'
-
 
   //注册i8n实例并引入语言文件
  const i18n = createI18n({

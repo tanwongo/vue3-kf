@@ -29,6 +29,8 @@
         text-align: left;
         height: auto;
         min-height: 44px;
+        border-radius: 5px;
+        font-size: 0.875rem;
     }
     .van-button__content{
         width: 100%;
@@ -58,6 +60,14 @@
     text-align: center;
 }
 
+.question-requestion{
+    .user-tx,.serv-tx{
+        .van-icon{
+            line-height: 2rem;
+        }
+    }
+}
+
 .submit-question-flex{
     .van-cell{
         flex-direction: column;
@@ -65,15 +75,25 @@
         align-content: flex-start;
         justify-content: flex-start;
         align-items: flex-start;
+        padding: 0;
     }
     .van-cell__value{
         width: 100%;
         padding: 10px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+    .van-cell__title{
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+    .van-field__word-limit{
+        margin-right: 20px;
     }
 }
 
 .radius-3-vant-btn button{
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .submit-question-alt{
@@ -87,8 +107,39 @@
     }
 }
 
+.operation-toast{
+    width: 100%;
+    text-align: left;
+    .van-toast__text{
+        word-break: break-all
+    }
+    i{
+        color: #daffec
+    } 
+}
+
 .sdkerror{
     .van-toast__icon{
         color:#f00
+    }
+}
+
+.operationQuestionaire{
+    .van-radio__label,.van-checkbox__label,.van-field__control{
+        font-size: 12px;
+        color:#808080
+    }
+    .matrix-radio{
+        .van-radio-group{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-content: flex-start;
+            justify-content: flex-start;
+            align-items: center;
+            .van-radio{
+                margin-right: 10px;
+            }
+        }
     }
 }

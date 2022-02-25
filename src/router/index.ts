@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "SubmitQuestion",
         props: true,
         component:()=> import('@/views/SubmitQuestion.vue')
+    },
+    {
+        path: "/operationQuestionnaire",
+        name: "operationQuestionnaire",
+        component:()=> import('@/Questionnaire/operationQuestionnaire.vue')
     }
 ]
 

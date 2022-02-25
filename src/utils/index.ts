@@ -1,4 +1,5 @@
 import { rejects } from "assert"
+import { time } from "console"
 import { Toast } from "vant"
 
 declare var PnSDK: any
@@ -17,11 +18,15 @@ export function readSDK() {
     let p1 = new Promise((res, rej) => { 
         PnSDK.queryString().then((v: any) => {
             res(v)
+        }).catch((e: any) => { 
+            rej(e)
         })
     })
     let p2 = new Promise((res, rej) => { 
         PnSDK.get("jwt","",true).then((v: any) => {
             res(v)
+        }).catch((e: any) => { 
+            rej(e)
         })
     })
     return new Promise(async (resolve, reject) => {
@@ -67,6 +72,8 @@ export function readSDK() {
         Toast.clear()
     })
 }
+    
+
 export function exURL(v:any){
     let reg = new RegExp('(^|&)' + v + '=([^&]*)(&|$)', 'i');
     let r = window.location.search.substr(1).match(reg);

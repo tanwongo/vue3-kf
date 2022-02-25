@@ -13,7 +13,7 @@
                 :label="t('SubmitQuestion.ProblemDescription')"
                 type="textarea"
                 maxlength="1000"
-                placeholder="请输入留言"
+                :placeholder="t('SubmitQuestion.Description')"
                 show-word-limit
             />
             <van-field name="uploader" :label="t('SubmitQuestion.UploadImage')">
@@ -23,7 +23,7 @@
             </van-field>
         </van-cell-group>
         <div class="radius-3-vant-btn">
-            <van-button block type="primary" class="mt10" @click="submitVerify">提交</van-button>
+            <van-button block type="primary" class="mt10" @click="submitVerify">{{t('SubmitQuestion.Submit')}}</van-button>
         </div>
     </van-form>
 </div>
@@ -66,7 +66,7 @@ let fd= new FormData()
         Toast.loading({
             overlay:true,
             icon: 'fail',
-            message:e,
+            message:e.message,
             className: 'sdkerror',
             forbidClick: true,
             duration:5000
@@ -108,7 +108,7 @@ const submitVerify = ()=>{
                 });
                 return
             }
-            else if(images.length===0 || videos.length === 0){
+            else if(images.length===0 && videos.length === 0){
                 Toast({
                     message: t('SubmitQuestion.Files'),
                     position: 'top'
@@ -173,8 +173,14 @@ const sendData = (v:Object) =>{
         }
         _url = createUrl
     }
+    Toast.loading({
+        overlay:true,
+        forbidClick: true,
+        duration:0
+    });
 
     requestPost(_url,v,30000).then((res:any)=>{
+        Toast.clear()
         if(res.data.code===0){
             Toast({
                 message:t('SubmitQuestion.Success2'),
